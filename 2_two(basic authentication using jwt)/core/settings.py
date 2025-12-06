@@ -48,6 +48,9 @@ INSTALLED_APPS = [
 
 ]
 
+# custom model
+AUTH_USER_MODEL = 'accounts.Accounts'
+
 # rest
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
