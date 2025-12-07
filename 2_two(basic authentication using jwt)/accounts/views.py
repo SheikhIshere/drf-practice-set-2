@@ -5,7 +5,9 @@ Docstring for accounts.views
 from rest_framework import (
     generics,
 )
-from rest_framework import permissions
+from rest_framework import permissions, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 # user import
 from django.contrib.auth import get_user_model
@@ -14,7 +16,8 @@ from django.contrib.auth import get_user_model
 from .serializers import (
     UserSerializer,
     UserRegistrationSerializer,
-    LoginTokenObtainSerializer
+    LoginTokenObtainSerializer,
+    ChangePasswordSerializer
 )
 
 # user
@@ -72,3 +75,30 @@ class ProfileView(generics.RetrieveAPIView):
     serializer_class = UserSerializer # for now using the general in big project i will be using more specified serializer\
     permission_classes = (permissions.AllowAny,)
     lookup_field = 'email'
+
+
+"""
+password changing view
+"""
+class ChangePasswordView(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = ChangePasswordSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = request.user
+
+        if not user.check_password(serializer.validated_data['old_password']):
+            return Response({
+                'old_password': ['wrong password']
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        new_password = serializer.validated_data['new_password']
+        user.set_password(new_password)
+        user.save()
+
+        return Response({
+            'detail': 'password updated successfully'
+        }, status=status.HTTP_200_OK)
