@@ -21,7 +21,11 @@ from .serializers import (
 User = get_user_model()
 
 # authentication
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshSlidingView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView, 
+    TokenRefreshSlidingView,
+    TokenRefreshView
+)
 
 
 """
@@ -54,7 +58,7 @@ class LoginView(TokenObtainPairView):
 """
 Token refresh view
 """
-class RefreshView(TokenRefreshSlidingView):
+class RefreshView(TokenRefreshView):
     """to get access token using refresh token"""
     permission_classes = (permissions.AllowAny, )
 
