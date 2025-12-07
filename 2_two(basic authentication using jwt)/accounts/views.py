@@ -67,4 +67,4 @@ class ProfileView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer # for now using the general in big project i will be using more specified serializer\
     permission_classes = (permissions.AllowAny,)
-    lookup_field = 'username'
+    lookup_field = 'email'

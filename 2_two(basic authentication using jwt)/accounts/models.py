@@ -46,5 +46,9 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
 
     objects = AccountManager()
 
+    class Meta:
+        verbose_name = 'Account'
+        verbose_name_plural = 'Accounts'
+
     def __str__(self):
         return f'{self.email}'
