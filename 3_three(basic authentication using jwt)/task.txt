@@ -1,0 +1,9 @@
+here you heave to do some thing
+
+///
+1. creating user through registration
+2. do jwt login 
+3. password changing system
+4. and see all user
+
+that's it
