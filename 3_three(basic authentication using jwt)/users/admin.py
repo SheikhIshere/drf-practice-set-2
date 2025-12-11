@@ -1,36 +1,27 @@
-"""
-Docstring for users.admin
-"""
-# core imports
-from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
-
-# local imports
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext_lazy as _
 from .models import Account
 
 @admin.register(Account)
-class Admin(UserAdmin):
-    """
-    here i am configuring admin panel for user
-    """
-    list_display = []
-    list_filter = []
-    search_fields = []
-    ordering = []
-
+class AccountAdmin(BaseUserAdmin):
+    list_display = ('email', 'name', 'is_active', 'is_staff', 'date_joined')
+    list_filter = ('is_active', 'is_staff', 'date_joined')
+    search_fields = ('email', 'name')
+    ordering = ('-date_joined',)
+    
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        # (_('Personal info'), {'fields': ('name')}),
-        (_('Personal info'), {'fields': ('name',)}),
-
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        (_('Personal Info'), {'fields': ('name',)}),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+        }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-
-    # Fields to use when creating a new user via admin
+    
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'is_active', 'is_staff', 'is_superuser'),
+            'fields': ('email', 'name', 'password1', 'password2', 'is_active', 'is_staff'),
         }),
     )

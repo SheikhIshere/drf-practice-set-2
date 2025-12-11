@@ -29,6 +29,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshSlidingView,
     TokenRefreshView
 )
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 """

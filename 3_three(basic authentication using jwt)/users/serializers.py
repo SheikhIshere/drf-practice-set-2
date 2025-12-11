@@ -90,6 +90,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return Account.objects.create_user(
             password=password, **validated_data
         )
+    
+
 
 
 """
@@ -113,11 +115,20 @@ class LoginTokenObtainSerializer(TokenObtainPairSerializer):
 """ password change serializer """
 class ChangePasswordSerializer(serializers.Serializer):
     """here i am taking input old password and new password"""
-    old_password = serializers.CharField(write_only = True)
-    new_password = serializers.CharField(write_only = True)
+    old_password = serializers.CharField(write_only = True, required=True)
+    new_password = serializers.CharField(write_only = True, required=True)
+    confirm_new_password = serializers.CharField(write_only = True, required=True)
 
-    def validate_new_password(self, value):
-        """here i am just validating password"""
-        validate_password(value)
+    def validate(self, attrs):
+        """here i am validating is password is similler or not"""
+        if attrs['new_password'] == attrs[['old_password']]:
+            raise serializers.ValidationError({
+                'error': 'old password and new password must not be same.'
+            })
 
-        return value
+        if attrs['new_password'] != attrs[['confirm_new_password']]:
+            raise serializers.ValidationError({
+                'error': 'New password and confirm password must match.'
+            })
+        validate_password(attrs['new_password'])
+        return attrs

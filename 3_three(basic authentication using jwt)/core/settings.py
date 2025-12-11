@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 ]
 
 # custom model
-AUTH_USER_MODEL = 'users.Accounts'
+AUTH_USER_MODEL = 'users.Account'
 
 # rest configuration
 REST_FRAMEWORK = {
@@ -58,6 +58,19 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Practice set',
+    'VERSION': '1.0.0',
+    'DESCRIPTION': 'Practice set',
+    'LICENSE': {
+        'name': 'MIT License',
+    },
+    'CONTACT': {
+        'name': 'Imran Rafi',
+        'email': 'user@example.com',
+    },
 }
 
 # jwt configuration

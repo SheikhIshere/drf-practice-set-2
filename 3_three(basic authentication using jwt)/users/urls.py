@@ -11,14 +11,20 @@ from rest_framework_simplejwt.views import (
 
 
 # local imports
-# from .views import(
-#     profile
-# )
+from .views import(
+    UserListView,
+    RegistrationView,
+    LoginView,
+    PasswordChangeView,
+)
 
 urlpatterns = [
-    
+    path('users/all/', UserListView.as_view(), name='user_list'),
+    path('register/', RegistrationView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('password-change/', PasswordChangeView.as_view(), name='password_change'),
+
 
     # token verification
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    
 ]
