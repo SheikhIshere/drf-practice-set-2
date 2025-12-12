@@ -40,11 +40,14 @@ INSTALLED_APPS = [
 
     # installed app
     'account',
+    'product',
 
     # 3rd party package
     'rest_framework',
     'drf_spectacular',
-    
+        
+    'django_extensions', # it can execute orm scripts
+
 ]
 
 # custom user
@@ -142,3 +145,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_ROOT = 'media/'
+MEDIA_URL = '/media/'
