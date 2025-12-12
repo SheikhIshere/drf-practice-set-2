@@ -25,6 +25,6 @@ urlpatterns = [
     path('password-change', PasswordChangeView.as_view(), name='password_change'),
 
     # to retrieve access token
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 ]

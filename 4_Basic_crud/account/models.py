@@ -22,13 +22,13 @@ class Account(AbstractUser):
     def __str__(self):
         return self.email
     
-    def save(self, *args, **kwargs):
-        if not self.username:
-            while True:
-                self.username = f"user_{uuid4().hex[:12]}"
-                if not Account.objects.filter(username=self.username).exists():
-                    break
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.username:
+    #         while True:
+    #             self.username = f"user_{uuid4().hex[:12]}"
+    #             if not Account.objects.filter(username=self.username).exists():
+    #                 break
+    #     super().save(*args, **kwargs)
     
     def __str__(self):
         return self.email

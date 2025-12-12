@@ -14,7 +14,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # password validation
-from django.contrib.auth import password_validation
+from django.contrib.auth.password_validation import validate_password
 
 # jwt authentication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -29,6 +29,7 @@ class AllUserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'email',
+            'username',
             'name',
             'is_active',
             'date_joined'
@@ -61,10 +62,16 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({
                 'error': 'both password must match'
             })
-        password_validation(attrs['password'])
+        validate_password(attrs['password'])
         return attrs
     
     def create(self, validated_data):
+        
+        # that's why i don't use abstractuser i use abstractbaseuser , though it's lengthy
+        from uuid import uuid4
+        username = validated_data['username'] = f"user_{uuid4().hex[:12]}"
+
+
         # let's make you agh!
         validated_data.pop('password', None)
         password = validated_data.pop('password2')
@@ -93,6 +100,8 @@ class PasswordChangeSerializer(serializers.Serializer):
     new_password = serializers.CharField(write_only = True)
     new_password2 = serializers.CharField(write_only = True)
 
+    # class
+
     def validate(self, attrs):
         # getting user
         user = self.context['request'].user
@@ -112,6 +121,6 @@ class PasswordChangeSerializer(serializers.Serializer):
             raise serializers.ValidationError({
                 'error': 'both new password must match'
             })
-        password_validation(attrs['new_password'])
+        validate_password(attrs['new_password'])
         
         return attrs

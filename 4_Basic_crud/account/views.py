@@ -43,12 +43,13 @@ class RegistrationView(generics.CreateAPIView):
 """Login"""
 class LoginView(TokenObtainPairView):
     serializer_class = LoginSerializer
-    permission_classes = (permissions.AllowAny)
+    permission_classes = (permissions.AllowAny,)
 
 
 """password change"""
 class PasswordChangeView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = PasswordChangeSerializer # fix: this is the thing to show form to change password
     def post(self, request, *args, **kwargs):
         """
         here i am writing the spell to change password
