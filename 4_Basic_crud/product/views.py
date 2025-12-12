@@ -10,6 +10,7 @@ from rest_framework import (
     status
 )
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 
 # local imports
 from .models import (
@@ -39,13 +40,23 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         return obj.user == request.user
 
+
+"""
+Pagination
+"""
+class ProductPagination(PageNumberPagination):
+    page_size = 50
+
+
 """
 base view
 """
 class BaseView(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    pagination_class = ProductPagination
 
-
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 """
 brand crud
@@ -69,6 +80,8 @@ showing product list
 class ProductListView(generics.ListAPIView):
     serializer_class = AllProductListSerializer
     permission_classes = (permissions.AllowAny,)
+    pagination_class = ProductPagination
+
 
     def get_queryset(self):
         return Product.objects.order_by('-created_at')

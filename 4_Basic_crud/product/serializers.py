@@ -27,7 +27,7 @@ class BrandSerializer(serializers.ModelSerializer):
             'title',
             'created_at',
         )
-        read_only_fields = ('id', 'created_at',)
+        read_only_fields = ('id', 'created_at', 'user',)
 
 
 """
@@ -43,7 +43,7 @@ class TagSerializer(serializers.ModelSerializer):
             'slug',
             'created_at',            
         )
-        read_only_fields = ('id', 'created_at',)
+        read_only_fields = ('id', 'created_at', 'user')
 
 
 """

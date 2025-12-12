@@ -36,7 +36,7 @@ class AllUserSerializer(serializers.ModelSerializer):
         )
     
     def get_name(self, obj):
-        return f'{obj.first_name + obj.last_name}'.strip()
+        return f'{obj.first_name} {obj.last_name}'.strip()
 
 
 """register serializer"""
